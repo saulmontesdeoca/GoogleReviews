@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#environment and project
+.env
+package-lock.json
+
+#for firebase
+.firebaserc
+firebase.json
+firebase_config.js
