@@ -10,7 +10,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<AuthPage/>} />
           <Route exact path="/home" element={<MainPage/>} />
-          <Route exact path="/list" element={<List/>} />
+          <Route exact path="/list:element" element={<List/>} />
         </Routes>
       </Router>
     </div>
