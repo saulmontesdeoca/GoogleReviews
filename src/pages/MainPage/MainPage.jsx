@@ -1,15 +1,16 @@
 import { Container } from '@mui/material';
-import NavBar from './NavBar.component';
-import Feed from '../../components/Feed'
+import Layout from '../../components/Layout';
+import Cover from '../../components/Cover';
+import Options from '../../components/Options';
 
 export default function MainPage() {
 	
 	return (
-		<>
-			<NavBar />
+		<Layout>
+			<Cover />
 			<Container>
-				<Feed />
+				<Options />
 			</Container>
-		</>
+		</Layout>
 	);
 }

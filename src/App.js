@@ -1,13 +1,18 @@
 import AuthPage from './pages/Auth';
 import MainPage from './pages/MainPage';
+import List from './pages/List';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <AuthPage/>
-        {/* <MainPage/> */}
-      </header>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<AuthPage/>} />
+          <Route exact path="/home" element={<MainPage/>} />
+          <Route exact path="/list" element={<List/>} />
+        </Routes>
+      </Router>
     </div>
   );
 }
