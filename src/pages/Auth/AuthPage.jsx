@@ -25,9 +25,10 @@ export default function AuthPage() {
 	}, []);
 
 	return (
-		<>
+		<div style={{textAlign: 'center', marginTop: 200}}>
+			<img src="/images/googlereviews.png" alt="logo" style={{height: 140, maxHeight: '80%'}}/>
 			<div id='firebaseui-auth-container' />
-		</>
+		</div>
 	);
 }
 
