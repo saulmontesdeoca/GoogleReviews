@@ -9,19 +9,40 @@ const ui = new auth.AuthUI(localAuth);
 
 export default function AuthPage() {
 		// Load the ui firebase interface
-	useEffect(() => {
-		ui.start('#firebaseui-auth-container', {
-			signInFlow: 'popup',
-			signInOptions: [
-				firebase.auth.EmailAuthProvider.PROVIDER_ID,
-				firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-			],
-			callbacks: {
-				signInSuccessWithAuthResult: function (authResult) {
-					return false; 
-				},
+	const config = {
+		signInFlow: 'popup',
+		signInSuccessUrl: 'http://localhost:3000/home',
+		signInOptions: [
+			{
+				provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+				requireDisplayName: true,
 			},
-		});
+			{
+				provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+				scopes: [
+				  'https://www.googleapis.com/auth/contacts.readonly'
+				],
+				customParameters: {
+				  // Forces account selection even when one account
+				  // is available.
+				  prompt: 'select_account'
+				}
+			  },
+			// firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+		],
+		callbacks: {
+			signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+				// User successfully signed in.
+				// Return type determines whether we continue the redirect automatically
+				// or whether we leave that to developer to handle.
+				console.log('authResult', authResult);
+				return true; 
+			},
+		},
+		
+		}
+	useEffect(() => {
+		ui.start('#firebaseui-auth-container', config);
 	}, []);
 
 	return (
