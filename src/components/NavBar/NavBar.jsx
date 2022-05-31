@@ -2,13 +2,14 @@ import { useCallback, useState } from 'react';
 import { Box, AppBar, Toolbar, Typography, Button, Menu, Avatar, Tooltip, MenuItem, IconButton } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../util/firebase_config';
-
+import { Link } from 'react-router-dom';
+import useApp from '../../hooks/userApp.hook';
 
 export default function NavBar() {
-	const logOut = useCallback(() => {
+	const { currentUser } = useApp();
+	const handleLogout = useCallback(() => {
 		signOut(auth);
 	}, []);
-	const settings = ['Profile', 'Account', 'Logout'];
 	const [anchorElUser, setAnchorElUser] = useState(null);
 
 	const handleOpenUserMenu = (event) => {
@@ -25,34 +26,36 @@ export default function NavBar() {
 					<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
 						<img src="/images/googlereviews-nobg.png" alt="logo" style={{height: 25, marginTop: 10}}/>
 					</Typography>
-					<Button onClick={logOut} color='inherit'>Log Out</Button>
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 						<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-							<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+							<Avatar alt={localStorage.getItem('user').displayName} src={currentUser ? currentUser.photoURL : ''} />
 						</IconButton>
 						</Tooltip>
 						<Menu
-						sx={{ mt: '45px' }}
-						id="menu-appbar"
-						anchorEl={anchorElUser}
-						anchorOrigin={{
-							vertical: 'top',
-							horizontal: 'right',
-						}}
-						keepMounted
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'right',
-						}}
-						open={Boolean(anchorElUser)}
-						onClose={handleCloseUserMenu}
-						>
-						{settings.map((setting) => (
-							<MenuItem key={setting} onClick={handleCloseUserMenu}>
-							<Typography textAlign="center">{setting}</Typography>
+							sx={{ mt: '45px'}}
+							id="menu-appbar"
+							anchorEl={anchorElUser}
+							anchorOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+							keepMounted
+							transformOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+							open={Boolean(anchorElUser)}
+							onClose={handleCloseUserMenu}
+							>
+							<Link to='profile' style={{ textDecoration: 'none', color: 'inherit' }}>
+								<MenuItem key={'profile'} >
+									<Typography textAlign="center">Profile</Typography>
+								</MenuItem>
+							</Link>
+							<MenuItem key={'signOut'} onClick={handleLogout}>
+								<Typography textAlign="center">Logout</Typography>
 							</MenuItem>
-						))}
 						</Menu>
 					</Box>
 				</Toolbar>
