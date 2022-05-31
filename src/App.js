@@ -26,9 +26,8 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route exact path="/home" element={<MainPage/>} />
+          <Route exact path="/" element={<MainPage/>} />
           <Route exact path="/list/:element" element={<List/>} />
-          <Route path="/*" element={<Navigate to='/home' />} />
         </Routes>
       </Router>
     </div>

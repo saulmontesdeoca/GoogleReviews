@@ -29,7 +29,7 @@ export default function NavBar() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 						<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-							<Avatar alt={localStorage.getItem('user').displayName} src={currentUser ? currentUser.photoURL : ''} />
+							<Avatar alt={currentUser && currentUser.displayName} src={currentUser ? currentUser.photoURL : ''} />
 						</IconButton>
 						</Tooltip>
 						<Menu

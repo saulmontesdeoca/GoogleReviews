@@ -11,7 +11,7 @@ export default function AuthPage() {
 		// Load the ui firebase interface
 	const config = {
 		signInFlow: 'popup',
-		signInSuccessUrl: 'http://localhost:3000/home',
+		signInSuccessUrl: 'http://localhost:3000/',
 		signInOptions: [
 			{
 				provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -35,7 +35,6 @@ export default function AuthPage() {
 				// User successfully signed in.
 				// Return type determines whether we continue the redirect automatically
 				// or whether we leave that to developer to handle.
-				console.log('authResult', authResult);
 				return true; 
 			},
 		},
