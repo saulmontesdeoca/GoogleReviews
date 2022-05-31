@@ -5,13 +5,16 @@ import {Container} from '@mui/material';
 import PlaceItemList from '../../components/PlaceItemList';
 import { useParams } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
+import CoverList from '../../components/CoverList';
 
 const Lists = () => {
     const { element } = useParams();
 
+
+
     return (
         <Layout>
-            {element}
+            <CoverList title={element} bg={`/images/${element}.jpeg`}/>
             <Container>
                 <List dense sx={{ width: '100%', maxWidth: '100%', bgcolor: 'background.paper' }}>
                     {[0, 1, 2, 3].map((value) => {
