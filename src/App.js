@@ -1,6 +1,7 @@
 import AuthPage from './pages/Auth';
 import MainPage from './pages/MainPage';
 import List from './pages/List';
+import Location from './pages/Location';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import useApp from './hooks/userApp.hook';
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<MainPage/>} />
           <Route exact path="/list/:element" element={<List/>} />
+          <Route exact path="/location/:type/:uid" element={<Location/>} />
         </Routes>
       </Router>
     </div>
