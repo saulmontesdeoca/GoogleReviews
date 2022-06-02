@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Galeria from '../Gallery';
 import ReviewsList from '../ReviewsList';
-
+import InfoTab from '../InfoTab';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
   
@@ -43,7 +43,7 @@ const LocationInfo = (props) => {
             </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                Info
+                <InfoTab location={location}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
               <ReviewsList reviewsIds={location.Reviews}/>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import List from '@mui/material/List';
-import {Container, Slider, Grid, FormGroup, FormControlLabel, Switch} from '@mui/material';
+import {Container, Slider, Grid, FormGroup, FormControlLabel, Switch, ToggleButtonGroup, ToggleButton} from '@mui/material';
 import PlaceItemList from '../../components/PlaceItemList';
 import { useParams } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
@@ -13,7 +13,7 @@ const Lists = () => {
     const { element } = useParams();
     const [locations, setLocations] = React.useState([]);
     const [onlyOpen, setOnlyOpen] = React.useState(true);
-
+    const [orderValue, setOrderValue] = React.useState(0);
     function valuetext(value) {
 		return `${value}$`;
     }
@@ -45,10 +45,23 @@ const Lists = () => {
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
           allLocations.push(doc.data());
-          allLocations.push(doc.data());
-          allLocations.push(doc.data());
         });
         setLocations(allLocations);
+    }
+
+    const order = (event, newValue) => {
+        setOrderValue(newValue);
+        switch(newValue){
+            case 0:
+                setLocations(locations.sort((a, b) => (a.Rating < b.Rating) ? 1 : -1));
+                break;
+            case 1:
+                setLocations(locations.sort((a, b) => (a.Price < b.Price) ? 1 : -1));
+                break;
+            default:
+                setLocations(locations.sort((a, b) => (a.Rating < b.Rating) ? 1 : -1));
+                break;
+        }
     }
 
     useEffect(() => {
@@ -59,8 +72,16 @@ const Lists = () => {
         <Layout>
             <CoverList title={element} bg={`/images/${element}.jpeg`}/>
             <Container>
-                <Grid container spacing={3} sx={{mb: 3 }}>
-                    <Grid item xs={3}>
+                <Grid container spacing={3} sx={{mb: 3 }}  style={{textAlign: 'center'}}>
+                    <Grid item xs={4}>
+                        <ToggleButtonGroup value={orderValue} onChange={order} size="small" exclusive>
+                            <ToggleButton value={0} key="0"> Rating </ToggleButton>
+                            <ToggleButton value={1} key="1"> $ Price </ToggleButton>
+                            <ToggleButton value={2} key="2"> Distance </ToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+                    <Grid item xs={1} />
+                    <Grid item xs={3} style={{textAlign: 'center'}}>
                         <Slider
                                 aria-label="Small steps"
                                 defaultValue={1}
@@ -72,7 +93,8 @@ const Lists = () => {
                                 valueLabelDisplay="auto"
                                 />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={2} />
+                    <Grid item xs={2} >
                         <FormGroup>
                             <FormControlLabel  control={<Switch defaultChecked onChange={()=>setOnlyOpen(false)}/>} label="Opened Now" />
                         </FormGroup>
@@ -88,7 +110,6 @@ const Lists = () => {
                         );
                     })
                     }
-                    {locations && JSON.stringify(locations) }
                 </List>
             </Container>
         </Layout>

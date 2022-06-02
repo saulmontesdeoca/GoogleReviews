@@ -6,14 +6,21 @@ import ReviewsListItem from '../ReviewsListItem';
 import { db } from '../../util/firebase_config';
 import { getDocs, query, collection, where } from 'firebase/firestore';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
+import {auth} from '../../util/firebase_config';
+import { v4 as uuidv4 } from 'uuid';
+import {doc, setDoc, updateDoc, arrayUnion} from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
 
 const ReviewsList = (props) => {
     const [reviews, setReviews] = React.useState([]);
     const { reviewsIds } = props;
+    const [revIds, setRevIds] = React.useState(reviewsIds);
+    const { uid } = useParams();
     const [rating, setRating] = React.useState(0);
     const [price, setPrice] = React.useState(0);
     const [open, setOpen] = React.useState(false);
-
+    const [text, setText] = React.useState('');
+    const [orderValue, setOrderValue] = React.useState(0);
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -25,6 +32,25 @@ const ReviewsList = (props) => {
     const handleClose = () => {
       setOpen(false);
     };
+    
+    const handleAddReview = async () => {
+        const review = {
+            Rating: rating,
+            Price: price,
+            Review: text,
+            userName: auth.currentUser.displayName.split(' ')[0] + ' ' + auth.currentUser.displayName.split(' ')[1][0],
+            Photos: [],
+            createdAt: Date.now(),
+            id: uuidv4(),
+            idUser: auth.currentUser.uid,
+        }
+        await setDoc(doc(db, "Reviews", review.id), review);
+        await updateDoc(doc(db, "Users", auth.currentUser.uid), {reviews: arrayUnion(review.id)});
+        await updateDoc(doc(db, "Locations", uid), {Reviews: arrayUnion(review.id)});
+        updateReviewsIds(review.id);
+        handleClose();
+    }
+
 
     function valuetext(value) {
 		return `${value}`;
@@ -53,21 +79,43 @@ const ReviewsList = (props) => {
         ];
 
     const getReviews = async (ids) => {
-        const theIds = ids.map(id => id.id.substring(id.id.indexOf('/') + 1));
-        const q = query(collection(db, "Reviews"), where("id","in", theIds));
+        const q = query(collection(db, "Reviews"), where("id","in", ids));
 
         const querySnapshot = await getDocs(q);
         const allReviews = [];
         querySnapshot.forEach((doc) => {
             allReviews.push(doc.data());
         });
-        console.log(allReviews);
+        // sort reviews by Rating
+        allReviews.sort((a, b) => (a.Rating < b.Rating) ? 1 : -1);
         setReviews(allReviews);
     }
 
+    const updateReviewsIds = (id) => {
+        setRevIds(reviewsIds.concat(id));
+    }
+
     useEffect(() => {
-        getReviews(reviewsIds);
-    }, []);
+        getReviews(revIds);
+    }, [revIds]);
+
+    const order = (event, orderBy) =>{
+        setOrderValue(orderBy);
+        switch(orderBy){
+            case 0:
+                setReviews(reviews.sort((a, b) => (a.Rating < b.Rating) ? 1 : -1));
+                break;
+            case 1:
+                setReviews(reviews.sort((a, b) => (a.Price < b.Price) ? 1 : -1));
+                break;
+            case 2:
+                setReviews(reviews.sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1));
+                break;
+            default:
+                setReviews(reviews.sort((a, b) => (a.Rating < b.Rating) ? 1 : -1));
+                break;
+        }
+    }
        
     return (
         <div>
@@ -83,7 +131,13 @@ const ReviewsList = (props) => {
                             valueLabelDisplay="auto"
                             />
                 </Grid>
-                <Grid item xs={7}/>
+                <Grid item xs={7} style={{textAlign: 'center'}}>
+                    <ToggleButtonGroup value={orderValue} onChange={order} size="small" exclusive>
+                        <ToggleButton value={1} key="1"> $ Price </ToggleButton>
+                        <ToggleButton value={0} key="2"> Rating </ToggleButton>
+                        <ToggleButton value={2} key="3"> Most Recent </ToggleButton>
+                    </ToggleButtonGroup>
+                </Grid>
                 <Grid item xs={2}>
                     <Button variant="outlined" onClick={handleClickOpen}>Add review</Button>
                     <Dialog open={open} onClose={handleClose}>
@@ -94,6 +148,8 @@ const ReviewsList = (props) => {
                             </DialogContentText>
                             <TextField
                                 autoFocus
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
                                 margin="dense"
                                 id="review"
                                 label="What did you like/dislike?"
@@ -124,7 +180,7 @@ const ReviewsList = (props) => {
                         </DialogContent>
                         <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleClose}>Add review</Button>
+                        <Button onClick={handleAddReview}>Add review</Button>
                         </DialogActions>
                     </Dialog>
                 </Grid>
