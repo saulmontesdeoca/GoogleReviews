@@ -12,6 +12,11 @@ import SmsIcon from '@mui/icons-material/Sms';
 const ReviewsListItem = (props) => {
     const { review, index } = props;
 
+    const getDate = (date) => {
+        const d = new Date(date * 1000)
+        return d.toLocaleString("en-US", {month: "long"}).substring(0,3) + ' ' + d.getDate() + ', ' + d.getFullYear();
+    }
+
     return (
         <ListItem
             key={index}
@@ -50,8 +55,7 @@ const ReviewsListItem = (props) => {
                             }}
                             >
                             <Box sx={{ ml: 2, color:'#505050', fontStyle: 'italic' }}>
-                                {Date(review.createdAt * 1000).substring(0, 16)}
-                                
+                                {getDate(review.createdAt)}           
                             </Box>
                         </Box>
                     </Grid>
