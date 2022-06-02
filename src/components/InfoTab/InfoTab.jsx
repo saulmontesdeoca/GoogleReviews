@@ -69,7 +69,7 @@ function Map(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   })
 
-  const loc = props.locate === 'Sonora Grill Santa Fe' ? myPlaces[1] : myPlaces[0];
+  const loc = props.locate === 'Sonora Grill Santa Fe' ? myPlaces[0] : myPlaces[1];
  
   ////////
   const [mapRef, setMapRef] = useState(null);
