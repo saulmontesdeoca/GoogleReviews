@@ -3,6 +3,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Galeria from '../Gallery';
+import ReviewsList from '../ReviewsList';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -24,7 +26,8 @@ function TabPanel(props) {
     );
   }
 
-const LocationInfo = () => {
+const LocationInfo = (props) => {
+    const { location } = props;
     const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
@@ -43,10 +46,10 @@ const LocationInfo = () => {
                 Info
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Reviews
+              <ReviewsList reviewsIds={location.Reviews}/>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Photo gallery
+                <Galeria images={location.Photos}/>
             </TabPanel>
         </div>
     );
