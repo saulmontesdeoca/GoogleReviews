@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import CoverList from '../../components/CoverList';
 import { db } from '../../util/firebase_config';
 import { getDocs, query, collection, where } from 'firebase/firestore';
+import Helmet from 'react-helmet';
 
 const Lists = () => {
     const { element } = useParams();
@@ -69,6 +70,10 @@ const Lists = () => {
     }, []);
 
     return (
+        <>
+        <Helmet>
+            <title>{element && element }</title>
+        </Helmet>
         <Layout>
             <CoverList title={element} bg={`/images/${element}.jpeg`}/>
             <Container>
@@ -113,7 +118,7 @@ const Lists = () => {
                 </List>
             </Container>
         </Layout>
-
+        </>
     );
 };
 
