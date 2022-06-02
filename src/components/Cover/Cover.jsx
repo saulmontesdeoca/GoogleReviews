@@ -17,7 +17,7 @@ export default function Cover() {
 				color: 'rgba(255,255,255,1)',
 				fontSize: '7rem',
 				position: 'absolute',
-				top:'5%',
+				top:'10%',
 				width:'90%',
 				alignSelf: 'center',
 				left: 0,
@@ -54,7 +54,7 @@ export default function Cover() {
 					</Paper>
 				</Card.Body>
 			</Card>
-			<Image src='/images/mexico_city.jpeg' fluid style={{height: 450, width: '100%', objectFit: 'cover'}}/>
+			<Image src='/images/mexico_city.jpeg' fluid style={{height: 600, width: '100%', objectFit: 'cover'}}/>
 		</div>
 		</>
 	);

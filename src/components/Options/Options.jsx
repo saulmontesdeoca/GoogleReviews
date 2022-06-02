@@ -11,6 +11,7 @@ import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { Link } from 'react-router-dom';
+import { auth } from '../../util/firebase_config';
 
 const Item = styled(Paper)(({ theme }) => ({
 	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -25,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Options = () => {
     return (
-		<Box sx={{width: '100%', }}>
+		<Box sx={{width: '100%', marginBottom: 10}}>
 			<Grid container spacing={{ xs: 2, md: 3 }}>
 				<Grid item xs={4}>
 					<Link to="/list/breakfast"  style={{textDecoration: 'none'}}>
