@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { getDoc, doc } from 'firebase/firestore';
 import { db } from '../../util/firebase_config';
 import LocationInfo from '../../components/LocationInfo/LocationInfo';
+import Helmet from 'react-helmet';
 
 export default function Location(props) {
     const [location, setLocation] = React.useState({});
@@ -25,11 +26,16 @@ export default function Location(props) {
     }, []);
 
 	return (
+        <>
+        	<Helmet>
+				<title>{location && location.Name }</title>
+			</Helmet>
 		<Layout>
 			<CoverLocation location={location} type={type}/>
 			<Container>
                 <LocationInfo location={location} />
 			</Container>
 		</Layout>
+        </>
 	);
 }
