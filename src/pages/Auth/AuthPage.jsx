@@ -3,7 +3,7 @@ import { auth } from 'firebaseui';
 import firebase from 'firebase/compat/app';
 import { useEffect } from 'react';
 import { auth as localAuth } from '../../util/firebase_config';
-
+import Helmet from 'react-helmet';
 // Create AuthUI Instance
 const ui = new auth.AuthUI(localAuth);
 
@@ -45,10 +45,15 @@ export default function AuthPage() {
 	}, []);
 
 	return (
-		<div style={{textAlign: 'center', marginTop: 200}}>
-			<img src="/images/googlereviews.png" alt="logo" style={{height: 140, maxHeight: '80%'}}/>
-			<div id='firebaseui-auth-container' />
-		</div>
+		<>
+			<Helmet>
+				<title>GoogleReviews - Signin</title>
+			</Helmet>
+			<div style={{textAlign: 'center', marginTop: 200}}>
+				<img src="/images/googlereviews.png" alt="logo" style={{height: 140, maxHeight: '80%'}}/>
+				<div id='firebaseui-auth-container' />
+			</div>
+		</>
 	);
 }
 
