@@ -40,7 +40,7 @@ const ReviewsList = (props) => {
             Review: text,
             userName: auth.currentUser.displayName.split(' ')[0] + ' ' + auth.currentUser.displayName.split(' ')[1][0],
             Photos: [],
-            createdAt: Date.now(),
+            createdAt: Math.round((new Date()).getTime() / 1000),
             id: uuidv4(),
             idUser: auth.currentUser.uid,
         }
