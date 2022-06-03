@@ -94,7 +94,7 @@ Firebase Firestore Data Structure:
 
 # 🏛 Architecture
 
-The architectur must be in microservices in the cloud and using Google API Gateways. The data will be handled in Firebase, data and queries will be handled in the backend to avoid access to alterations by users. The Google Analytics service is used. Services should be able to scale up or down as required. The solution will be deployed in the Google Cloud Platform.
+The architecture must be in microservices in the cloud and using Google API Gateways. The data will be handled in Firebase, data and queries will be handled in the backend to avoid access to alterations by users. The Google Analytics service is used. Services should be able to scale up or down as required. The solution will be deployed in the Google Cloud Platform.
 
 <div align="center">
     <img alt="Logo" src="./docs/images/Architecture.png" width="100%">
