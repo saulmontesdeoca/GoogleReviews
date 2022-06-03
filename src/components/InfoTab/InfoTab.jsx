@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Rating } from '@mui/material'; 
 import { Chip, Stack, Grid } from '@mui/material';
 import { GoogleMap, useJsApiLoader, Marker, MarkerClusterer } from '@react-google-maps/api';
@@ -8,7 +8,7 @@ const InfoTab = (props) => {
 
     return (
         <>
-            <Grid style={{width: "100%"}}>
+            <Grid container spacing={3}>
                 <Grid item xs={6}>
                     <h3>Address:</h3>
                     <div>
@@ -26,8 +26,7 @@ const InfoTab = (props) => {
                     <h3>Type:</h3>
                     <div style={{fontSize: 24}}>
                     <Stack direction="row" spacing={1}>
-                        
-                        {location.Type &&location.Type.map((type, index) => {
+                        {location.Type && location.Type.map((type, index) => {
                             return (
                                 <Chip style={{fontSize: 24, height: 42, width: 132}} label={type} color={type === 'dinner' ? 'primary': type === 'lunch' && 'success'} />
                             )
@@ -47,16 +46,9 @@ export default InfoTab;
 
 
 const containerStyle = {
-  width: '50vw',
+  width: '100%',
   height: '50vh'
 };
-
-const center = {
-  lat: 19.3613586,
-  lng: -99.266365,
-};
-
-
 
 const myPlaces = [
     { id: "1", pos: { lat: 19.3613586, lng: -99.266365 } },// sonora
@@ -84,12 +76,15 @@ function Map(props) {
     bounds.extend(loc.pos);
 
     map.fitBounds(bounds);
+    console.log(map.getZoom());  
+    map.setZoom(24);
   };
 
   const loadHandler = map => {
     // Store a reference to the google map instance in state
     setMapRef(map);
     // Fit map bounds to contain all markers
+    map.setZoom(24);
     fitBounds(map);
   };
    // We have to create a mapping of our places to actual Marker objects
@@ -110,15 +105,20 @@ function Map(props) {
     setInfoOpen(true);
 
     // zoom out 
-    if (zoom < 13) {
-      setZoom(13);
-    }
+    // if (zoom < 13) {
+    //   setZoom(13);
+    // }
   };
-
   
   //for creating the map
   const [map, setMap] = React.useState(null)
   
+  useEffect(() => {
+    // if (mapRef) {
+    //   // mapRef.panTo(loc.pos);
+    //   mapRef.setZoom(24);
+    // }
+  }, []);
 
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
@@ -127,28 +127,26 @@ function Map(props) {
   return isLoaded ? (
     <div style={{padding: "20px"}}>
       <div>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={zoom}
-        onLoad={loadHandler}
-        onUnmount={onUnmount}
-      >
-        <MarkerClusterer>
-          {clusterer =>
-            myPlaces.map(place => (
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={loc.pos}
+          zoom={zoom}
+          onLoad={loadHandler}
+          onUnmount={onUnmount}
+        >
+          <MarkerClusterer>
+            {clusterer =>
               <Marker
-                key={place.id}
-                clusterer={clusterer}
-                position={place.pos}
-                // name={place.name}
-                onLoad={marker => markerLoadHandler(marker, place)}
-                onClick={event => markerClickHandler(event, place)}
-              />
-            ))
-          }
-        </MarkerClusterer>
-      </GoogleMap>
+                  key={loc.id}
+                  clusterer={clusterer}
+                  position={loc.pos}
+                  // name={place.name}
+                  onLoad={marker => markerLoadHandler(marker, loc)}
+                  onClick={event => markerClickHandler(event, loc)}
+                />
+            }
+          </MarkerClusterer>
+        </GoogleMap>
       </div>
     </div>
   ) : <></>
