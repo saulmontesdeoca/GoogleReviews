@@ -7,6 +7,12 @@
 
 # 👾 Description
 
+## Our proposal
+Use the current infrastructure of google to provide all the reviews inside an specific app, being it web, where the user can look into a specific area near him or valuable to him through the businesses near, give a better description of the business and generally improve the aggregated value to each one of the businesses. Its core value is to improve the interrelationship between the user and the businesses by optimizing the functionality already described, as the reservation function. Also base the technology with google since the  competition already is based on google technology.  Moreover the functionality of routes it’s left in the google maps application so the specific target of the app are the companies and the user, improving the performance and even giving certain status to the business as tripadvisor does. 
+
+## Scope
+Position Google Reviews as the most reliable place to look for a place based on different values by listening to the users on what they like and giving a specific status to the companies in the app, as well as maintain the interactions only to the google technology.
+
 
 <div align="center">
     <img alt="GoogleReviews" src="./docs/images/googlereviews.gif" width="100%">
