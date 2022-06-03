@@ -1,6 +1,10 @@
 # Google Reviews
 ---
 
+<div align="center">
+    <img alt="GoogleReviews" src="./docs/images/logo.png" width="100%">
+</div>
+
 # 👾 Description
 
 
